@@ -3,7 +3,7 @@
 
 
 @each $name in $list-names {
-  .#{$name} {
-    background-image: url('/images/#{$name}.png');
+    .photo-#{$name} {
+      background: image-url("photos/#{$name}.jpg") no-repeat;
+    }
   }
-}
