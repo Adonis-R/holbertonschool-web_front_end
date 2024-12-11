@@ -1,1 +1,15 @@
 /* My style */
+.info {
+    font-size: 12px;
+  }
+  
+  .success {
+    @extend .info;
+    color: #00FF00;
+  }
+  
+  .warning {
+    @extend .info;
+    font-size: large;
+    color: #FF0000;
+  }
