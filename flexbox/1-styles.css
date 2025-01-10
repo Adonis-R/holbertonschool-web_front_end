@@ -185,10 +185,6 @@
     padding: 0;
     list-style: none;
   }
-
-  .row{
-    display: flex;
-  }
   
   [class*='col-'] {
     padding: 0.5rem;
@@ -201,7 +197,9 @@
   .col-1-2 {
     width: 50%;
   }
-  
+  .row{
+      display: flex;
+  }
   /* Navbar
       ============================= */
   
@@ -259,7 +257,7 @@
     padding: var(--header-padding);
          position: relative;
          z-index: 3;
-         background: transparent;
+         background: transparent !important;
   }
   
   .header-logo {
