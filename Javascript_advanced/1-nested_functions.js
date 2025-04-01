@@ -1,18 +1,21 @@
-const globalVariable = 'Welcome';
+const globalVariable = "Welcome";
 
 function outer() {
-  alert(globalVariable); // Welcome
+    alert(globalVariable);
+    const course = "Holberton";
 
-  const course = 'Holberton';
+    function inner() {
+        alert(globalVariable + course);
+        const exclamation = "!";
 
-  function inner() {
-      alert(`${globalVariable} ${course}`);
-      const exclamation = '!';
+        function inception() {
+            alert(globalVariable + course + exclamation);
+        }
 
-      function inception() {
-          alert(`${globalVariable} ${course}${exclamation}`);
-      }
-      inception();
-  }
-  inner();
+        inception();
+    }
+
+    inner();
 }
+
+outer();
