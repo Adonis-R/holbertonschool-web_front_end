@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" crossorigin="anonymous"
+        type="application/javascript"></script>
+    <script type="application/javascript">
+        function createSearchForm() {
+            const form = $('<form></form>');
+            const textInput = $('<input type="text">');
+            const submitButton = $('<input type="submit" value="Search">');
+            const resultList = $('<ul></ul>');
+            const pagination = $('<li></li>', { id: 'pagination' });
+
+            form.append(textInput, submitButton);
+            $('body').append(form, resultList, pagination);
+
+            form.submit(function (event) {
+                event.preventDefault();
+                const searchQuery = textInput.val();
+                queryWikipedia(searchQuery);
+            });
+        }
+
+        function addNewArticle(id, title, snippet) {
+            const listItem = $('<li></li>');
+            const idTitleParagraph = $('<p></p>').html(`${id} - <b>${title}</b>`);
+            const snippetParagraph = $('<p></p>').html(snippet);
+
+            listItem.append(idTitleParagraph, snippetParagraph);
+            $('ul').append(listItem);
+        }
+
+        function buildPagination(numberOfItems, itemsPerPage, currentOffset) {
+            $('#pagination').empty(); // Reset pagination list
+            $('#pagination').css('display', 'flex'); // Display pages in a horizontal line
+
+            const totalPages = Math.ceil(numberOfItems / itemsPerPage);
+            for (let i = 0; i < totalPages; i++) {
+                const listItem = $('<li></li>').text(i + 1); // Page number starts from 1
+
+                // Add CSS styles
+                listItem.css({
+                    cursor: 'pointer',
+                    'margin-left': '10px',
+                    'font-weight': currentOffset === i * itemsPerPage ? 'bold' : 'normal',
+
+                });
+
+                // Add click event to call queryWikipedia with the correct offset
+                listItem.on('click', function () {
+                    queryWikipedia($('#pagination').data('searchQuery'), i * itemsPerPage);
+                });
+
+                $('#pagination').append(listItem);
+            }
+        }
+
+        function queryWikipedia(search, offset = 0) {
+            const data = {
+                action: 'query',
+                list: 'search',
+                srsearch: search,
+                sroffset: offset,
+                format: 'json',
+                origin: '*'
+            };
+
+            $('#pagination').data('searchQuery', search); // Store the search query for pagination
+
+            $.ajax({
+                url: 'https://en.wikipedia.org/w/api.php',
+                data: data,
+                dataType: 'json',
+                success: function (response) {
+                    $('ul').empty(); // Clear previous results
+                    const results = response.query.search;
+                    results.forEach(result => {
+                        addNewArticle(result.pageid, result.title, result.snippet);
+                    });
+
+                    const totalHits = response.query.searchinfo.totalhits;
+                    buildPagination(totalHits, 10, offset); // Call buildPagination
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            createSearchForm();
+        });
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

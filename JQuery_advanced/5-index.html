@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <title>Task 0</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+        <script type="application/javascript">
+            function createFamilyTree() {
+                const table = $('<table></table>');
+                const thead = $('<thead></thead>');
+                const tbody = $('<tbody></tbody>');
+
+                // Create table head
+                const headRow = $('<tr></tr>');
+                headRow.append('<th>Firstname</th>');
+                headRow.append('<th>Lastname</th>');
+                thead.append(headRow);
+
+                // Append thead and tbody to table
+                table.append(thead);
+                table.append(tbody);
+
+                // Append table to body
+                $('body').append(table);                
+            }
+            function addNewMember(firstName, lastName) {
+                const row = $('<tr></tr>');
+                row.append(`<td>${firstName}</td>`);
+                row.append(`<td>${lastName}</td>`);
+
+                const deleteCell = $('<td>(x)</td>');
+                deleteCell.css('background-color', 'orange');
+                deleteCell.css('cursor', 'pointer');
+                deleteCell.on('click', function () {
+                    row.remove();
+                });
+
+                row.append(deleteCell);
+                $('table tbody').append(row);
+            }
+
+            $(document).ready(function () {
+                createFamilyTree();
+
+                addNewMember('Guillaume', 'Salva');
+                addNewMember('Arielle', 'Snizt');
+                addNewMember('Fanette', 'Snizt');
+                addNewMember('Gerard', 'Snizt');
+                addNewMember('Victor', 'Salva');
+            });
+        </script>
+
+    </head>
+
+    <body>
+
+    </body>
+
+</html>
